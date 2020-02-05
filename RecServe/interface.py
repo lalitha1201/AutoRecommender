@@ -2,6 +2,7 @@ import click
 from colorama import Fore,Style
 import data_preprocessing as data
 import model_cf as model
+import pandas as pd
 
 
 def colored(string,color):
@@ -48,6 +49,13 @@ def dialogue():
     click.clear()
     modelname = 'item_item'
     results = model.all_models(csv,modelname)
+    modelname2 = click.prompt(colored('Recommendations using matrix factorization? [y/N]"',Fore.MAGENTA),type= click.Choice(['Y','N']))
+    modelname = 'matrix'
+    results1 = model.all_models(csv,modelname)
+    #csv1 = click.prompt(colored('Enter the customer Id',Fore.MAGENTA))
+    #print('Recommendations for the user')
+    #df = pd.read_csv('submissionF.csv')
+    #print(df)
     
     
     
