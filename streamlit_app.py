@@ -44,7 +44,7 @@ option1 = st.selectbox(
 st.write('The data is loaded')
 #data_load_state = st.text('Loading the data')
 data = ds.get_data(option1)
-st.write(data)
+#st.write(data)
 
     #data = ds.get_data(_file_path, 'data/data_subset.csv', 0.99)
 #data = ds.get_data('/Users/lalitharahul/Desktop/AutoRecommender/RecServe/sample_us.tsv')
@@ -73,15 +73,21 @@ url = st.sidebar.text_input('Enter CustomerID')
 #st.write('The Entered Customer Id is', url)
 url1 = st.sidebar.text_input('Enter ProductId')
 #st.write('The Entered Product Id is', url1)
-if url and url1:
+if url in ['18778586','24769659','44331596'] and url1 in ['B00EDBY7X8','B00D7JFOPC','B002LHA74O']:
    option = st.sidebar.selectbox(
        'Select the following?',
-        ['user_user','item_item','matrix_factor'])
+        ['Recommend items for users to purchase?','Recommend similar items for users to purchase?'])
 #st.write('You selected:', option)
-
+  
+   if option == 'Recommend items for users to purchase?':
+      option1 = 'user_user'
+      st.write('Best Algorithm: KNNWithMeans')
+   else:
+      option1 = 'item_item'
+      st.write('Best Algorithm:SlopeOne')
 #for model in ['user_user', 'item_item', 'matrix_fact']:
         # Perform cross validation
-   results = model_selection.cross_validate(select_model(df_loaded, model_selection=option),
+   results = model_selection.cross_validate(select_model(df_loaded, model_selection=option1),
                                                  df_loaded,
                                                  measures=['RMSE', 'MAE'], cv=5, verbose=False)
 
@@ -101,7 +107,7 @@ if url and url1:
 # get a prediction for specific users and items.
         #pred = algo.predict(uid,verbose=True)
         #pred
-   top_n = rec.get_top_n(predictions, n=10)
+   top_n = rec.get_top_n(predictions, n=3)
         
         #top_n[data_surprise.userID[38745832]]
  
@@ -159,6 +165,7 @@ if url and url1:
    results_list.append(tmp)
         # print(results_list)
    results_df = pd.DataFrame(results_list)
+   #st.write(merge1.loc[merge1['UserId'] == '47781982'])
        # st.write(results_df) 
     # saving the results file to folder
 #st.write('The dataset details')
